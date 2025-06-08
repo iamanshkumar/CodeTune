@@ -1,0 +1,423 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&family=Martian+Mono:wght@100..800&display=swap');
+
+:root {
+  --bg-dark: #0a0a0a;
+  --bg-darker: #050505;
+  --bg-card: #111111;
+  --primary-accent: #00ff88;
+  --secondary-accent: #00cc6a;
+  --accent-hover: #00dd77;
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --text-muted: #808080;
+  --code-bg: #0d1117;
+  --terminal-bg: #151515;
+  --highlight: rgba(0, 255, 136, 0.1);
+  --border-color: rgba(0, 255, 136, 0.2);
+  --shadow-primary: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-accent: 0 4px 15px rgba(0, 255, 136, 0.2);
+  --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --border-radius: 12px;
+  --border-radius-sm: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  font-family: "Martian Mono", monospace;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Enhanced background with subtle pattern */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0, 204, 106, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.top {
+  height: 10vh;
+  min-height: 60px;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  background: rgba(10, 10, 10, 0.8);
+  position: relative;
+}
+
+.top::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--primary-accent) 50%, 
+    transparent 100%
+  );
+}
+
+.top h1 {
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, 
+    var(--primary-accent) 0%, 
+    var(--secondary-accent) 50%, 
+    var(--accent-hover) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    filter: drop-shadow(0 0 5px rgba(0, 255, 136, 0.3));
+  }
+  to {
+    filter: drop-shadow(0 0 15px rgba(0, 255, 136, 0.5));
+  }
+}
+
+.hero {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  background: var(--bg-darker);
+}
+
+.left, .right {
+  width: 45vw;
+  min-width: 300px;
+  height: 100%;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-primary);
+  position: relative;
+  transition: var(--transition-smooth);
+}
+
+.left:hover, .right:hover {
+  box-shadow: var(--shadow-accent);
+  transform: translateY(-2px);
+}
+
+.left {
+  background: linear-gradient(135deg, var(--code-bg) 0%, #0f1419 100%);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Enhanced terminal header */
+.left::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(135deg, var(--terminal-bg) 0%, #1a1a1a 100%);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  border-bottom: 1px solid var(--border-color);
+  z-index: 2;
+}
+
+/* Terminal dots */
+.left::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f56;
+  box-shadow: 
+    20px 0 0 #ffbd2e,
+    40px 0 0 #27ca3f;
+  z-index: 3;
+}
+
+.left .code, .code pre, .code pre code {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background-color: transparent;
+  font-family: "Fira Mono", monospace;
+  font-size: clamp(0.8rem, 2vw, 0.95rem);
+  padding-top: 60px;
+  border: none;
+}
+
+.code pre {
+  padding: 0 2rem 2rem 2rem;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-accent) var(--code-bg);
+}
+
+.code pre code {
+  color: var(--primary-accent);
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+}
+
+.hero .left .review {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%);
+  color: var(--bg-darker);
+  padding: 1rem 2.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  border-radius: var(--border-radius-sm);
+  border: none;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  transition: var(--transition-fast);
+  box-shadow: 
+    0 4px 15px rgba(0, 255, 136, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  z-index: 4;
+}
+
+.hero .left .review:hover {
+  background: linear-gradient(135deg, var(--accent-hover) 0%, var(--primary-accent) 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 8px 25px rgba(0, 255, 136, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.hero .left .review:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 
+    0 2px 10px rgba(0, 255, 136, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.hero .left .review:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.right {
+  background: linear-gradient(135deg, var(--terminal-bg) 0%, #1a1a1a 100%);
+  padding: 2.5rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+  overflow: auto;
+  border: 1px solid var(--border-color);
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-accent) var(--terminal-bg);
+}
+
+.right h2 {
+  color: var(--primary-accent);
+  margin-bottom: 2rem;
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.right h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+  border-radius: 1px;
+}
+
+.right p {
+  margin-bottom: 1.2rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.right pre {
+  background: linear-gradient(135deg, var(--code-bg) 0%, #0a0e13 100%);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-sm);
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border-left: 3px solid var(--primary-accent);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.right pre::before {
+  content: 'code';
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.right code {
+  font-family: "Fira Mono", monospace;
+  color: var(--primary-accent);
+  font-size: 0.9rem;
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.2);
+}
+
+.right a {
+  color: var(--primary-accent);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--primary-accent);
+  transition: var(--transition-fast);
+  position: relative;
+}
+
+.right a:hover {
+  color: var(--secondary-accent);
+  border-bottom: 1px solid var(--secondary-accent);
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+/* Enhanced scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+  border-radius: 5px;
+  border: 2px solid var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--secondary-accent), var(--accent-hover));
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--bg-dark);
+}
+
+/* Responsive design improvements */
+@media (max-width: 1024px) {
+  .hero {
+    flex-direction: column;
+    height: auto;
+    min-height: 90vh;
+  }
+  
+  .left, .right {
+    width: 100%;
+    min-height: 400px;
+  }
+  
+  .hero {
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .top {
+    padding: 1rem;
+  }
+  
+  .hero {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .left .code, .code pre, .code pre code {
+    font-size: 0.8rem;
+  }
+  
+  .right {
+    padding: 1.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .hero .left .review {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.8rem 2rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Focus styles for accessibility */
+.hero .left .review:focus {
+  outline: 2px solid var(--primary-accent);
+  outline-offset: 2px;
+}
+
+/* Selection styling */
+::selection {
+  background: var(--highlight);
+  color: var(--text-primary);
+}
+
+::-moz-selection {
+  background: var(--highlight);
+  color: var(--text-primary);
+}
